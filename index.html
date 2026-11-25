@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة مؤشر كتلة الجسم BMI | أداة مجانية</title>
+<meta name="description" content="احسب مؤشر كتلة جسمك واعرف فئتك (نحافة، وزن طبيعي، زيادة وزن، سمنة) والوزن الصحي المناسب لطولك. دون إرسال أي بيانات.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;padding:1.6rem 1rem;text-align:center}
+header h1{font-size:1.5rem}
+.tagline{opacity:.92;font-size:.95rem;margin-top:.25rem}
+main{flex:1;width:100%;max-width:560px;margin:0 auto;padding:1rem}
+.card{background:#fff;border-radius:14px;padding:1.25rem;box-shadow:0 1px 4px rgba(15,23,42,.08);margin-bottom:1rem}
+.card h2{font-size:1.1rem;margin-bottom:.4rem;color:#0f766e}
+label{display:block;font-weight:700;margin:.75rem 0 .3rem}
+input,select,textarea{width:100%;padding:.7rem .8rem;border:1.5px solid #cbd5e1;border-radius:10px;font-size:1rem;font-family:inherit;background:#fff;color:#1e293b}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#0f766e;box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.row{display:flex;gap:.6rem}
+.row>*{flex:1;min-width:0}
+button{display:inline-block;width:100%;padding:.8rem;border:0;border-radius:10px;background:#0f766e;color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:1rem}
+button:hover{background:#115e59}
+button.ghost{background:#e2e8f0;color:#1e293b}
+.result{background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:10px;padding:1rem;margin-top:1rem;font-size:1.05rem;word-break:break-word}
+.result b{color:#047857}
+.result.warn{background:#fffbeb;border-color:#fcd34d}
+.result.warn b{color:#b45309}
+.result.bad{background:#fef2f2;border-color:#fca5a5}
+.result.bad b{color:#b91c1c}
+.muted{color:#64748b;font-size:.85rem}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.2rem 1rem;font-size:.85rem;line-height:1.9}
+footer a{color:#5eead4}
+table{width:100%;border-collapse:collapse;margin-top:.5rem}
+th,td{padding:.5rem;border-bottom:1px solid #e2e8f0;text-align:right;font-size:.95rem}
+.big{font-size:1.6rem;font-weight:800}
+.hidden{display:none}
+.chk{display:flex;align-items:center;gap:.5rem;margin:.3rem 0}
+.chk input{width:auto}
+
+</style>
+</head>
+<body>
+<header>
+<h1>حاسبة مؤشر كتلة الجسم</h1>
+<p class="tagline">BMI وفئتك والوزن الصحي المناسب لطولك</p>
+</header>
+<main>
+<div class="card">
+<h2>بياناتك</h2>
+<div class="row">
+<div>
+<label for="weight">الوزن (كجم)</label>
+<input type="number" inputmode="decimal" id="weight" min="0" placeholder="70">
+</div>
+<div>
+<label for="height">الطول (سم)</label>
+<input type="number" inputmode="decimal" id="height" min="0" placeholder="175">
+</div>
+</div>
+<button onclick="calc()">احسب</button>
+</div>
+<div id="out" class="result hidden"></div>
+<p class="muted" style="text-align:center">المؤشر إرشادي للبالغين، ولا ينطبق بدقة على الأطفال والحوامل والرياضيين أصحاب الكتلة العضلية العالية.</p>
+
+</main>
+<footer>
+<p>تعمل هذه الأداة بالكامل على جهازك، ولا تُحفظ أو تُرسل أي بيانات إلى أي خادم.</p>
+<p>أداة مجانية مفتوحة المصدر · بُنيت بمساعدة أدوات ذكاء اصطناعي · <a href="https://github.com/abood-ayman/bmi-calculator-ar">الكود على GitHub</a></p>
+</footer>
+<script>
+window.__jserrors=[];window.addEventListener('error',function(e){window.__jserrors.push(String(e.message))});
+const g = id => document.getElementById(id);
+
+function bmi(w, hCm) {
+  const h = hCm / 100;
+  return h > 0 ? w / (h * h) : NaN;
+}
+function category(v) {
+  if (v < 18.5) return ['نحافة', 'warn'];
+  if (v < 25) return ['وزن طبيعي', ''];
+  if (v < 30) return ['زيادة وزن', 'warn'];
+  return ['سمنة', 'bad'];
+}
+function healthyRange(hCm) {
+  const h = hCm / 100;
+  return { low: 18.5 * h * h, high: 24.9 * h * h };
+}
+
+function calc() {
+  const w = parseFloat(g('weight').value), h = parseFloat(g('height').value);
+  const el = g('out');
+  el.classList.remove('hidden', 'warn', 'bad');
+  const v = bmi(w, h);
+  if (isNaN(v) || w <= 0 || h <= 0) { el.innerHTML = '<p>أدخل وزنًا وطولًا صحيحين.</p>'; return; }
+  const [cat, cls] = category(v);
+  if (cls) el.classList.add(cls);
+  const r = healthyRange(h);
+  el.innerHTML = '<p class="big">مؤشر كتلة جسمك: <b>' + v.toFixed(1) + '</b></p>' +
+                 '<p>الفئة: <b>' + cat + '</b></p>' +
+                 '<p>الوزن الصحي لطولك: من <b>' + r.low.toFixed(1) + '</b> إلى <b>' + r.high.toFixed(1) + ' كجم</b></p>';
+}
+
+window.__test = function () {
+  const v = bmi(70, 175);
+  const r = healthyRange(175);
+  const ok = Math.abs(v - 22.857) < 0.01 && category(v)[0] === 'وزن طبيعي' &&
+             category(17)[0] === 'نحافة' && category(27)[0] === 'زيادة وزن' && category(32)[0] === 'سمنة' &&
+             Math.abs(r.low - 56.66) < 0.1 && Math.abs(r.high - 76.26) < 0.1;
+  return { pass: ok, details: { v, r } };
+};
+
+window.__demo = function () {
+  g('weight').value = 82; g('height').value = 178;
+  calc();
+};
+
+</script>
+</body>
+</html>
