@@ -4,6 +4,8 @@ Calculate your body mass index, see your category and the healthy weight range f
 
 **Live app:** https://abood-ayman.github.io/bmi-calculator-ar/
 
+**LinkedIn:** [Project entry](https://www.linkedin.com/in/abdullah-ayman-1678b737b/details/projects/)
+
 ![BMI Calculator, mobile view](docs/screenshot.svg)
 
 This is a personal project, built with AI tools.
