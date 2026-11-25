@@ -1,28 +1,30 @@
-# حاسبة مؤشر كتلة الجسم
+# BMI Calculator | حاسبة مؤشر كتلة الجسم
 
-BMI وفئتك والوزن الصحي المناسب لطولك
+Calculate your body mass index, see your category and the healthy weight range for your height. Arabic interface.
 
-**رابط الأداة (تعمل فورًا من المتصفح):** https://abood-ayman.github.io/bmi-calculator-ar/
+**Live app:** https://abood-ayman.github.io/bmi-calculator-ar/
 
-## ما الذي تقدمه؟
+![BMI Calculator, mobile view](docs/screenshot.svg)
 
-- حساب فوري لمؤشر كتلة الجسم من الوزن والطول
-- تصنيف النتيجة وفق معايير منظمة الصحة العالمية
-- نطاق الوزن الصحي المناسب لطولك بالكيلوجرام
-- ملاحظات واضحة عن حدود المؤشر (رياضيون، أطفال، حوامل)
+This is a personal project, built with AI tools.
 
-## الخصوصية
+## Features
+- Instant BMI from weight and height
+- Result classified by WHO categories
+- Healthy weight range for your height in kilograms
+- Clear notes about the index limits (athletes, children, pregnancy)
 
-تعمل الأداة بالكامل داخل متصفحك (HTML/CSS/JavaScript فقط). لا يوجد خادم، ولا حسابات، ولا تتبّع، ولا تُرسل أو تُحفظ أي بيانات تدخلها خارج جهازك.
+## Note
+BMI is a general indicator, not a medical diagnosis.
 
-## التقنية
+## Privacy
+Everything runs in your browser. No data is stored or sent anywhere.
 
-صفحة ثابتة واحدة بلا أي مكتبات خارجية، تعمل على الهاتف والحاسوب، وتُستضاف مجانًا عبر GitHub Pages.
+## Run locally
+Open `index.html` in any browser. It is a single static page with no dependencies.
 
-## ملاحظة شفافية
+## Status
+Stable.
 
-بُنيت هذه الأداة بمساعدة أدوات ذكاء اصطناعي، ورُوعيَت بساطتها وفائدتها المباشرة.
-
-## الرخصة
-
-MIT — انظر ملف LICENSE.
+## Copyright
+MIT License - Copyright (c) 2026 Abdullah Ayman.
